@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        var player = other.collider.GetComponent<Player>();
+        var player = other.collider.GetComponent<HealthController>();
         if (player != null)
         {
             // Add damage and destroy the object

@@ -15,8 +15,9 @@ public class Menu : MonoBehaviour
 
     private void OnEnable()
     {
+        var persistence = new Persistence();
         // Get the last time and format it
-        var time = TimeSpan.FromSeconds(PlayerPrefs.GetFloat("duration"));
+        var time = TimeSpan.FromSeconds(persistence.LoadLastDuration());
         _lastDuration.text = time.ToString(@"mm\:ss");
     }
 
