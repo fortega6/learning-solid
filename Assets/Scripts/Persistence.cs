@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Persistence
 {
-    private readonly string DurationKey = "duration";
+    private const string DurationKey = "duration";
+
     public float LoadLastDuration()
     {
         return PlayerPrefs.GetFloat(DurationKey);

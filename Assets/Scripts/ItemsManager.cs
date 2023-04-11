@@ -5,13 +5,11 @@ using Random = UnityEngine.Random;
 
 public class ItemsManager : MonoBehaviour
 {
-    public enum ItemTypes
-    {
-        PermanentSpeed,
-        Heal
-    }
-    [SerializeField] private SpeedItem _speedItem;
-    [SerializeField] private HealItem _healItem;
+    [SerializeField] private string[] _itemIds;
+
+    [SerializeField] private Item[] _prefabItems;
+    private Dictionary<string, Item> _idToItemPrefabs;
+    
     [SerializeField] private GameObject[] _spawnPoints;
     [SerializeField] private float _minSpawnInterval = 2;
     [SerializeField] private float _maxSpawnInterval = 4;
@@ -19,6 +17,15 @@ public class ItemsManager : MonoBehaviour
     private List<GameObject> _items = new List<GameObject>();
     private bool _canSpawn;
     private float _timeToNextSpawn;
+
+    private void Awake()
+    {
+        _idToItemPrefabs = new Dictionary<string, Item>();
+        foreach (var prefabItem in _prefabItems)
+        {
+            _idToItemPrefabs.Add(prefabItem.Id, prefabItem);
+        }
+    }
 
     private void Start()
     {
@@ -34,7 +41,7 @@ public class ItemsManager : MonoBehaviour
             {
                 CalculateTimeToNextSpawn();
                 // Get random item to spawn
-                SpawnItem((ItemTypes) Random.Range(0, Enum.GetNames(typeof(ItemTypes)).Length));
+                SpawnItem(_itemIds[Random.Range(0, _itemIds.Length)]);
             }
         }
     }
@@ -43,24 +50,17 @@ public class ItemsManager : MonoBehaviour
         _timeToNextSpawn = Random.Range(_minSpawnInterval, _maxSpawnInterval);
     }
 
-    private void SpawnItem(ItemTypes type)
+    private void SpawnItem(string id)
     {
         // Spawn the items in random position
-        switch (type)
+        if (!_idToItemPrefabs.TryGetValue(id, out var itemToInstantiate))
         {
-            case ItemTypes.PermanentSpeed:
-                _items.Add(Instantiate(_speedItem,
-                                       _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
-                                       Quaternion.identity).gameObject);
-                break;
-            case ItemTypes.Heal:
-                _items.Add(Instantiate(_healItem,
-                                       _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
-                                       Quaternion.identity).gameObject);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            throw new ArgumentOutOfRangeException();
         }
+        
+        _items.Add(Instantiate(itemToInstantiate,
+            _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
+            Quaternion.identity).gameObject);
     }
     
     public void DestroyItems()

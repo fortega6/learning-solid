@@ -1,4 +1,4 @@
-﻿using Unity.Mathematics;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class HealthController : MonoBehaviour
@@ -6,14 +6,14 @@ public class HealthController : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private PlayerHud _playerHud;
     [SerializeField] private int _initialHealth = 100;
-
+    
     private int _currentHealth;
 
     private void Awake()
     {
         Reset();
     }
-
+    
     public void Reset()
     {
         _currentHealth = _initialHealth;
