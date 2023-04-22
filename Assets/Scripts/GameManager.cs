@@ -10,10 +10,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ItemsManager _itemsManager;
     [SerializeField] private Player _player;
 
+    private ISave _save;
     private float _startTime;
 
     private void Awake()
     {
+        _save = new Persistence();
         Instance = this;
     }
 
@@ -23,8 +25,7 @@ public class GameManager : MonoBehaviour
         _itemsManager.DestroyItems();
         var duration = Time.time - _startTime;
         // Save the last duration
-        var persistence = new Persistence();
-        persistence.SaveLastDuration(duration);
+        _save.SaveLastDuration(duration);
         _menu.ShowGameOver();
     }
 

@@ -8,16 +8,17 @@ public class Menu : MonoBehaviour
     [SerializeField] private Button _startButton;
     [SerializeField] private Text _lastDuration;
 
+    private ILoad _load;
     private void Awake()
     {
+        _load = new Persistence();
         _startButton.onClick.AddListener(OnStartButtonPressed);
     }
 
     private void OnEnable()
     {
-        var persistence = new Persistence();
         // Get the last time and format it
-        var time = TimeSpan.FromSeconds(persistence.LoadLastDuration());
+        var time = TimeSpan.FromSeconds(_load.LoadLastDuration());
         _lastDuration.text = time.ToString(@"mm\:ss");
     }
 
