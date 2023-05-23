@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Obstacle : MonoBehaviour
 {
     [SerializeField] private int _damage = 10;
     [SerializeField] private float _speed  = 3;
@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        var doDamageComponent = other.collider.GetComponent<IDoDamage>();
+        var doDamageComponent = other.collider.GetComponent<IDamageReceiver>();
         if (doDamageComponent != null)
         {
             // Add damage and destroy the object

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /* Set permanent speed power up */
-public class SpeedItem : Item
+public class SpeedItem : AbstractItem
 {
     [SerializeField] private float _speed;
 

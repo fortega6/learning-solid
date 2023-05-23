@@ -1,18 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-public class Installer : MonoBehaviour
+public class GameInstaller : MonoBehaviour
 {
-    [SerializeField] private Menu _menu;
-    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private MainMenu _menu;
+    [SerializeField] private GameEventListener _gameManager;
 
     private void Awake()
     {
         _menu.Configure(GetLoadPersistence());
-        _gameManager.Configure(GetSavePersistence());
+        _gameManager.Configure(GetLoadPersistence(), GetSavePersistence());
     }
 
-    private ILoad GetLoadPersistence()
+    private ILoader GetLoadPersistence()
     {
 #if UNITY_EDITOR
         return new FilePersistence();
@@ -20,7 +20,7 @@ public class Installer : MonoBehaviour
         return new PlayerPrefsPersistence();
     }
 
-    private ISave GetSavePersistence()
+    private ISaver GetSavePersistence()
     {
 #if UNITY_EDITOR
         return new FilePersistence();

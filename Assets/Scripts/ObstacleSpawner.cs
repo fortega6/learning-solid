@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ObstacleManager : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject _obstaclePrefab;
     [SerializeField] private GameObject[] _spawnPoints;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DrunkItem : Item
+public class DrunkItem : AbstractItem
 {
     [SerializeField] private float _duration = 2;
     private void OnCollisionEnter2D(Collision2D other)

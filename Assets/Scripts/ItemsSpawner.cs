@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ItemsManager : MonoBehaviour
+public class ItemsSpawner : MonoBehaviour
 {
     [SerializeField] private string[] _itemIds;
 
-    [SerializeField] private Item[] _prefabItems;
-    private Dictionary<string, Item> _idToItemPrefabs;
+    [SerializeField] private AbstractItem[] _prefabItems;
+    private Dictionary<string, AbstractItem> _idToItemPrefabs;
     
     [SerializeField] private GameObject[] _spawnPoints;
     [SerializeField] private float _minSpawnInterval = 2;
@@ -20,7 +20,7 @@ public class ItemsManager : MonoBehaviour
 
     private void Awake()
     {
-        _idToItemPrefabs = new Dictionary<string, Item>();
+        _idToItemPrefabs = new Dictionary<string, AbstractItem>();
         foreach (var prefabItem in _prefabItems)
         {
             _idToItemPrefabs.Add(prefabItem.Id, prefabItem);

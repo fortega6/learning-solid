@@ -1,8 +1,8 @@
 namespace Combat
 {
-    public class Archer : Hero
+    public class Archer : AbstractHero
     {
-        private void DoRangeAttack(IDoDamage opponent)
+        private void DoRangeAttack(IDamageReceiver opponent)
         {
             opponent.AddDamage(10);
         }
@@ -12,7 +12,7 @@ namespace Combat
         {
         }
 
-        public override void DoAttack(IDoDamage opponent)
+        public override void DoAttack(IDamageReceiver opponent)
         {
             DoRangeAttack(opponent);
         }

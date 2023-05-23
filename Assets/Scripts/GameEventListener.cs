@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
 /* Manage the state of the game */
-public class GameManager : MonoBehaviour
+public class GameEventListener : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static GameEventListener Instance { get; private set; }
 
-    [SerializeField] private Menu _menu;
-    [SerializeField] private ObstacleManager _obstacleManager;
-    [SerializeField] private ItemsManager _itemsManager;
+    [SerializeField] private MainMenu _menu;
+    [SerializeField] private ObstacleSpawner _obstacleManager;
+    [SerializeField] private ItemsSpawner _itemsManager;
     [SerializeField] private Player _player;
 
-    private ISave _save;
+    private ISaver _save;
     private float _startTime;
 
     private void Awake()
@@ -18,9 +18,10 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Configure(ISave save)
+    public void Configure(ILoader loadPersistance, ISaver save)
     {
         _save = save;
+        _menu.Configure(loadPersistance);
     }
 
     public void OnPlayerDeath()

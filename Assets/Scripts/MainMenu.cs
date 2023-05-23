@@ -3,18 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /* Start game menu */
-public class Menu : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button _startButton;
     [SerializeField] private Text _lastDuration;
 
-    private ILoad _load;
+    private ILoader _load;
     private void Awake()
     {
-        _startButton.onClick.AddListener(OnStartButtonPressed);
+         _startButton.onClick.AddListener(OnStartButtonPressed);
     }
 
-    public void Configure(ILoad load)
+    public void Configure(ILoader load)
     {
         _load = load;
     }
@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
 
     private void OnStartButtonPressed()
     {
-        GameManager.Instance.OnStartGame();
+        GameEventListener.Instance.OnStartGame();
         gameObject.SetActive(false);
     }
 

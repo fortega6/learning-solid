@@ -1,4 +1,4 @@
-public interface IDoDamage
+public interface DoDamage
 {
     void AddDamage(int damage);
 }

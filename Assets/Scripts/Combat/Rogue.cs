@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Combat
 {
-    public class Rogue : Hero
+    public class Rogue : AbstractHero
     {
         
-        private void DoMeleeAttack(IDoDamage opponent)
+        private void DoMeleeAttack(IDamageReceiver opponent)
         {
             opponent.AddDamage(10);
         }
 
-        private void DoRangeAttack(IDoDamage opponent)
+        private void DoRangeAttack(IDamageReceiver opponent)
         {
             opponent.AddDamage(10);
         }
@@ -21,7 +21,7 @@ namespace Combat
             
         }
 
-        public override void DoAttack(IDoDamage opponent)
+        public override void DoAttack(IDamageReceiver opponent)
         {
             if (Random.Range(1, 100) > 50)
             {

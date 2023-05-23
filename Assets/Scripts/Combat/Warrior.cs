@@ -1,9 +1,9 @@
 namespace Combat
 {
-    public class Warrior : Hero
+    public class Warrior : AbstractHero
     {
         
-        private void DoMeleeAttack(IDoDamage opponent)
+        private void DoMeleeAttack(IDamageReceiver opponent)
         {
             opponent.AddDamage(10);
         }
@@ -13,7 +13,7 @@ namespace Combat
             
         }
 
-        public override void DoAttack(IDoDamage opponent)
+        public override void DoAttack(IDamageReceiver opponent)
         {
             DoMeleeAttack(opponent);
         }

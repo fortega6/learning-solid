@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Combat
 {
-    public class CombatManager
+    public class CombatSimulator
     {
-        public void Simulate(List<Hero> team1, List<Hero> team2)
+        public void Simulate(List<AbstractHero> team1, List<AbstractHero> team2)
         {
             foreach (var hero in team1)
             {

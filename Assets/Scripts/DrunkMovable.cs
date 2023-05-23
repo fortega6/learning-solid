@@ -1,7 +1,7 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
 
-public class RegularMovement : IMovement
+public class DrunkMovable : IMovable
 {
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -22,6 +22,6 @@ public class RegularMovement : IMovement
         var x = horizontal * speed * Time.deltaTime;
 
         // Move according the input
-        _transform.Translate(x, 0.0f, 0.0f);
+        _transform.Translate(-x, 0.0f, 0.0f);
     }
 }

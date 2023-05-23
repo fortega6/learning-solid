@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IMovement
+public interface IMovable
 {
     void DoMove(float speed);
     void Configure(Animator animator, SpriteRenderer spriteRenderer, Transform transform);
