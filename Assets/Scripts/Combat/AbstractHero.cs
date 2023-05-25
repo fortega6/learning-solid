@@ -1,8 +1,8 @@
 namespace Combat
 {
-    public abstract class AbstractHero : IDamageReceiver, IAttacker
+    public abstract class AbstractHero : IAttacker, IDamageReceiver
     {
-        public abstract void AddDamage(int           damage);
+        public abstract void ReceiveDamage(int           quantity);
 
         public abstract void DoAttack(IDamageReceiver opponent);
     }

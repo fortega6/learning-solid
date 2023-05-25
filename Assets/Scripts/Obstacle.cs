@@ -2,21 +2,21 @@
 
 public class Obstacle : MonoBehaviour
 {
-    [SerializeField] private int _damage = 10;
-    [SerializeField] private float _speed  = 3;
+    [SerializeField] private int _damageWillCause = 10;
+    [SerializeField] private float _movementSpeed  = 3;
 
     private void FixedUpdate()
     {
-        transform.Translate(Vector3.down * (_speed * Time.fixedDeltaTime));
+        transform.Translate(Vector3.down * (_movementSpeed * Time.fixedDeltaTime));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        var doDamageComponent = other.collider.GetComponent<IDamageReceiver>();
-        if (doDamageComponent != null)
+        var player = other.collider.GetComponent<IDamageReceiver>();
+        if (player != null)
         {
             // Add damage and destroy the object
-            doDamageComponent.AddDamage(_damage);
+            player.ReceiveDamage(_damageWillCause);
             Destroy(gameObject);
         }
         else

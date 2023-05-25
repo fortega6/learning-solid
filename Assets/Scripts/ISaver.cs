@@ -1,4 +1,4 @@
-﻿public interface ISaver
+public interface ISaver
 {
-    public void SaveLastDuration(float duration);
+    void SaveData(float duration);
 }

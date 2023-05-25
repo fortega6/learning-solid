@@ -1,80 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class ItemsSpawner : MonoBehaviour
 {
-    [SerializeField] private string[] _itemIds;
+    [SerializeField] private AbstractItem[] Items;
 
-    [SerializeField] private AbstractItem[] _prefabItems;
-    private Dictionary<string, AbstractItem> _idToItemPrefabs;
-    
     [SerializeField] private GameObject[] _spawnPoints;
     [SerializeField] private float _minSpawnInterval = 2;
     [SerializeField] private float _maxSpawnInterval = 4;
-    
-    private List<GameObject> _items = new List<GameObject>();
-    private bool _canSpawn;
-    private float _timeToNextSpawn;
 
-    private void Awake()
-    {
-        _idToItemPrefabs = new Dictionary<string, AbstractItem>();
-        foreach (var prefabItem in _prefabItems)
-        {
-            _idToItemPrefabs.Add(prefabItem.Id, prefabItem);
-        }
-    }
+    private List<GameObject> _spawnedItems = new List<GameObject>();
+    private Dictionary<ItemTypes, AbstractItem> _itemTypeToItem = new Dictionary<ItemTypes, AbstractItem>();
+    private bool _isSpawnAvailable;
+    private float _timeToNextSpawn;
 
     private void Start()
     {
         CalculateTimeToNextSpawn();
+        foreach (var item in Items)
+        {
+            _itemTypeToItem.Add(item.Type, item);
+        }
     }
-    
+
     private void Update()
     {
-        if (_canSpawn)
+        if (_isSpawnAvailable)
         {
             _timeToNextSpawn -= Time.deltaTime;
             if (_timeToNextSpawn < 0)
             {
                 CalculateTimeToNextSpawn();
                 // Get random item to spawn
-                SpawnItem(_itemIds[Random.Range(0, _itemIds.Length)]);
+                var selectedType = (ItemTypes) Random.Range(0, Enum.GetNames(typeof(ItemTypes)).Length);
+
+                if (_itemTypeToItem.ContainsKey(selectedType))
+                {
+                    _itemTypeToItem.TryGetValue(selectedType, out AbstractItem selectedItem);
+                    SpawnItem(selectedItem);
+                }
+                else
+                {
+                    throw new ArgumentNullException(nameof(selectedType), "Selected type not found");
+                }
             }
         }
     }
+
     private void CalculateTimeToNextSpawn()
     {
         _timeToNextSpawn = Random.Range(_minSpawnInterval, _maxSpawnInterval);
     }
 
-    private void SpawnItem(string id)
+    private void SpawnItem(AbstractItem item)
     {
         // Spawn the items in random position
-        if (!_idToItemPrefabs.TryGetValue(id, out var itemToInstantiate))
-        {
-            throw new ArgumentOutOfRangeException();
-        }
-        
-        _items.Add(Instantiate(itemToInstantiate,
+
+        _spawnedItems.Add(Instantiate(item,
             _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
             Quaternion.identity).gameObject);
     }
-    
+
     public void DestroyItems()
     {
-        foreach (var projectile in _items)
+        foreach (var projectile in _spawnedItems)
         {
             Destroy(projectile);
         }
 
-        _canSpawn = false;
+        _isSpawnAvailable = false;
     }
-    
+
     public void StartSpawning()
     {
-        _canSpawn = true;
+        _isSpawnAvailable = true;
     }
 }

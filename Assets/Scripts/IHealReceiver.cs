@@ -1,4 +1,4 @@
-﻿public interface IHealReceiver
+public interface IHealReceiver
 {
-    void Heal(int heal);
+    void Heal(int quantityToHeal);
 }

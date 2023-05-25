@@ -1,17 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerPrefsPersistence : ILoader, ISaver
+public class PlayerPrefsPersistence : ISaver, ILoader
 {
-    private const string DurationKey = "duration";
+   public void SaveData(float duration)
+   {
+      PlayerPrefs.SetFloat("duration", duration);
+      PlayerPrefs.Save();
+   }
 
-    public float LoadLastDuration()
-    {
-        return PlayerPrefs.GetFloat(DurationKey);
-    }
-
-    public void SaveLastDuration(float duration)
-    {
-        PlayerPrefs.SetFloat(DurationKey, duration);
-        PlayerPrefs.Save();
-    }
+   public float LoadData()
+   {
+      return PlayerPrefs.GetFloat("duration");
+   }
 }

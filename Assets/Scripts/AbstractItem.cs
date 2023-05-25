@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using DefaultNamespace;
+using UnityEngine;
 
 public abstract class AbstractItem : MonoBehaviour
 {
-    [SerializeField] private string _id;
-    public string Id => _id;
+    public ItemTypes Type;
+
+    protected abstract void OnCollisionEnter2D(Collision2D other);
+
 }

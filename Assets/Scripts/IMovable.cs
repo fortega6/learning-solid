@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public interface IMovable
+namespace DefaultNamespace
 {
-    void DoMove(float speed);
-    void Configure(Animator animator, SpriteRenderer spriteRenderer, Transform transform);
+    public interface IMovable
+    {
+        void DoMove(float speed);
+        void Configure(Animator animator, SpriteRenderer spriteRenderer, Transform transform);
+    }
 }

@@ -5,42 +5,42 @@ public class GameEventListener : MonoBehaviour
 {
     public static GameEventListener Instance { get; private set; }
 
-    [SerializeField] private MainMenu _menu;
-    [SerializeField] private ObstacleSpawner _obstacleManager;
-    [SerializeField] private ItemsSpawner _itemsManager;
+    [SerializeField] private MainMenu _mainMenu;
+    [SerializeField] private ObstacleSpawner _obstacleSpawner;
+    [SerializeField] private ItemsSpawner _itemsSpawner;
     [SerializeField] private Player _player;
 
-    private ISaver _save;
-    private float _startTime;
+    private float _gameStartTime;
+    private ISaver _saver;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void Configure(ILoader loadPersistance, ISaver save)
+    public void Configure(ILoader loaderPersistance, ISaver saverPersistance)
     {
-        _save = save;
-        _menu.Configure(loadPersistance);
+        _saver = saverPersistance;
+        _mainMenu.Congigure(loaderPersistance);
     }
 
     public void OnPlayerDeath()
     {
-        _obstacleManager.DestroyProjectiles();
-        _itemsManager.DestroyItems();
-        var duration = Time.time - _startTime;
+        _obstacleSpawner.DestroyProjectiles();
+        _itemsSpawner.DestroyItems();
+        var gameDuration = Time.time - _gameStartTime;
         // Save the last duration
-        _save.SaveLastDuration(duration);
-        _menu.ShowGameOver();
+        _saver.SaveData(gameDuration);
+        _mainMenu.ShowGameOver();
     }
 
     public void OnStartGame()
     {
         // Start timer
-        _startTime = Time.time;
+        _gameStartTime = Time.time;
         // Start the logic of the managers and reset the player
-        _obstacleManager.StartSpawning();
-        _itemsManager.StartSpawning();
+        _obstacleSpawner.StartSpawning();
+        _itemsSpawner.StartSpawning();
         _player.Reset();
     }
 }

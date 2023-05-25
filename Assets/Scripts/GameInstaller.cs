@@ -1,30 +1,25 @@
-﻿using System;
+using System;
 using UnityEngine;
 
-public class GameInstaller : MonoBehaviour
+namespace DefaultNamespace
 {
-    [SerializeField] private MainMenu _menu;
-    [SerializeField] private GameEventListener _gameManager;
-
-    private void Awake()
+    public class GameInstaller : MonoBehaviour
     {
-        _menu.Configure(GetLoadPersistence());
-        _gameManager.Configure(GetLoadPersistence(), GetSavePersistence());
-    }
+        [SerializeField] private GameEventListener _gameEventListener;
 
-    private ILoader GetLoadPersistence()
-    {
-#if UNITY_EDITOR
-        return new FilePersistence();
-#endif
-        return new PlayerPrefsPersistence();
-    }
-
-    private ISaver GetSavePersistence()
-    {
-#if UNITY_EDITOR
-        return new FilePersistence();
-#endif
-        return new PlayerPrefsPersistence();
+        private void Awake()
+        {
+            #if UNITY_EDITOR
+            ILoader loaderPersisntace = new FilePersistance();
+            ISaver saverPersistance = new FilePersistance();
+            #endif
+            
+            #if UNITY_ANDROID
+            ILoad loadPesistance = new PlayerPrefsPersistence();
+            ISave savePersistance = new PlayerPrefsPersistence();
+            #endif
+            
+            _gameEventListener.Configure(loaderPersisntace, saverPersistance);
+        }
     }
 }

@@ -2,13 +2,14 @@
 
 public class DrunkItem : AbstractItem
 {
-    [SerializeField] private float _duration = 2;
-    private void OnCollisionEnter2D(Collision2D other)
+    [SerializeField] private float _time;
+
+    protected override void OnCollisionEnter2D(Collision2D other)
     {
-        var player = other.collider.GetComponent<MovementController>();
-        if (player)
+        var player = other.gameObject.GetComponent<MovementController>();
+        if (player != null)
         {
-            player.SetDrunk(_duration);
+            player.SetDrunk(_time);
             Destroy(gameObject);
         }
     }

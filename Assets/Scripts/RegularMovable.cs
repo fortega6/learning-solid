@@ -1,27 +1,31 @@
-﻿using Unity.Mathematics;
+using Unity.Mathematics;
 using UnityEngine;
 
-public class RegularMovable : IMovable
+namespace DefaultNamespace
 {
-    private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
-    private Transform _transform;
-
-    public void Configure(Animator animator, SpriteRenderer spriteRenderer, Transform transform)
+    public class RegularMovable : IMovable
     {
-        _animator = animator;
-        _spriteRenderer = spriteRenderer;
-        _transform = transform;
-    }
+        
+        private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
+        private Transform _transform;
 
-    public void DoMove(float speed)
-    {
-        var horizontal = Input.GetAxis("Horizontal");
-        _animator.SetFloat("Horizontal", math.abs(horizontal));
-        _spriteRenderer.flipX = horizontal < 0;
-        var x = horizontal * speed * Time.deltaTime;
+        public void Configure(Animator animator, SpriteRenderer spriteRenderer, Transform transform)
+        {
+            _animator = animator;
+            _spriteRenderer = spriteRenderer;
+            _transform = transform;
+        }
 
-        // Move according the input
-        _transform.Translate(x, 0.0f, 0.0f);
+        public void DoMove(float speed)
+        {
+            // Check input
+            var horizontal = Input.GetAxis("Horizontal");
+            _animator.SetFloat("Horizontal", math.abs(horizontal));
+            _spriteRenderer.flipX = horizontal < 0;
+            // Move according the input
+            var x = horizontal * speed * Time.deltaTime;
+            _transform.Translate(x, 0.0f, 0.0f);
+        }
     }
 }

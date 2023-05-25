@@ -1,4 +1,4 @@
-﻿public interface ILoader
+public interface ILoader
 {
-    public float LoadLastDuration();
+    float LoadData();
 }

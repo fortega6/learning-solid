@@ -1,3 +1,5 @@
+﻿using System.Collections;
+using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -7,23 +9,20 @@ public class HealthController : MonoBehaviour, IDamageReceiver, IHealReceiver
     [SerializeField] private PlayerHud      _playerHud;
     [SerializeField] private int            _initialHealth = 100;
     
+    
     private int _currentHealth;
 
-    private void Awake()
-    {
-        Reset();
-    }
-    
     public void Reset()
     {
         _currentHealth = _initialHealth;
         _playerHud.SetHealth(_currentHealth.ToString());
+        _animator.SetBool("IsDeath", false);
     }
 
-    public void AddDamage(int damage)
+    public void ReceiveDamage(int quantity)
     {
         // Update current health with the damage
-        _currentHealth -= damage;
+        _currentHealth -= quantity;
         // Update hud
         _playerHud.SetHealth(_currentHealth.ToString());
 
@@ -37,10 +36,10 @@ public class HealthController : MonoBehaviour, IDamageReceiver, IHealReceiver
         }
     }
 
-    public void Heal(int heal)
+    public void Heal(int quantityToHeal)
     {
         // Check that the health is in the limits
-        _currentHealth = math.min(_currentHealth + heal, _initialHealth);
+        _currentHealth = math.min(_currentHealth + quantityToHeal, _initialHealth);
         _playerHud.SetHealth(_currentHealth.ToString());
     }
 }

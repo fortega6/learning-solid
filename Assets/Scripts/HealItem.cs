@@ -2,14 +2,14 @@
 
 public class HealItem : AbstractItem
 {
-    [SerializeField] private int _heal;
+    [SerializeField] private int _healQuantity;
 
-    private void OnCollisionEnter2D(Collision2D other)
+    protected override void OnCollisionEnter2D(Collision2D other)
     {
-        var healComponent = other.collider.GetComponent<IHealReceiver>();
-        if (healComponent != null)
+        var player = other.collider.GetComponent<IHealReceiver>();
+        if (player != null)
         {
-            healComponent.Heal(_heal);
+            player.Heal(_healQuantity);
             Destroy(gameObject);
         }
 
