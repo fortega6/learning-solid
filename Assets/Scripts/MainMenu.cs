@@ -21,10 +21,19 @@ public class MainMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        // Get the last time and format it
+        LoadLastDuration();
+    }
+
+    private void LoadLastDuration()
+    {
         var gameDuration = _loader.LoadData();
         var time = TimeSpan.FromSeconds(gameDuration);
-        _lastGameDurationText.text = time.ToString(@"mm\:ss");
+        _lastGameDurationText.text = FormatTimer(time);
+    }
+
+    private String FormatTimer(TimeSpan time)
+    {
+        return time.ToString(@"mm\:ss");
     }
 
     private void OnStartButtonPressed()

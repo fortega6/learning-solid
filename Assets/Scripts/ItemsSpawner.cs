@@ -31,34 +31,39 @@ public class ItemsSpawner : MonoBehaviour
         if (_isSpawnAvailable)
         {
             _timeToNextSpawn -= Time.deltaTime;
-            if (_timeToNextSpawn < 0)
+            if (IsTimeToSpawn())
             {
                 CalculateTimeToNextSpawn();
-                // Get random item to spawn
-                var selectedType = (ItemTypes) Random.Range(0, Enum.GetNames(typeof(ItemTypes)).Length);
-
-                if (_itemTypeToItem.ContainsKey(selectedType))
-                {
-                    _itemTypeToItem.TryGetValue(selectedType, out AbstractItem selectedItem);
-                    SpawnItem(selectedItem);
-                }
-                else
-                {
-                    throw new ArgumentNullException(nameof(selectedType), "Selected type not found");
-                }
+                SpawnRandomItem();
             }
         }
     }
+    private bool IsTimeToSpawn()
+    {
+        return _timeToNextSpawn < 0;
+    }
+
+    private void SpawnRandomItem()
+    {
+        var selectedType = (ItemTypes)Random.Range(0, Enum.GetNames(typeof(ItemTypes)).Length);
+
+        if (!_itemTypeToItem.ContainsKey(selectedType))
+        {
+            throw new ArgumentNullException(nameof(selectedType), "Selected type not found");
+        }
+
+        _itemTypeToItem.TryGetValue(selectedType, out AbstractItem selectedItem);
+        SpawnItemInRandomPosition(selectedItem);
+    }
+
 
     private void CalculateTimeToNextSpawn()
     {
         _timeToNextSpawn = Random.Range(_minSpawnInterval, _maxSpawnInterval);
     }
 
-    private void SpawnItem(AbstractItem item)
+    private void SpawnItemInRandomPosition(AbstractItem item)
     {
-        // Spawn the items in random position
-
         _spawnedItems.Add(Instantiate(item,
             _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
             Quaternion.identity).gameObject);

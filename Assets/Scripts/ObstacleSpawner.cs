@@ -23,16 +23,25 @@ public class ObstacleSpawner : MonoBehaviour
         if (_isSpawnAvailable)
         {
             _timeToNextSpawn -= Time.deltaTime;
-            if (_timeToNextSpawn < 0)
+            if (IsTimeToSpawnObstacle())
             {
                 CalculateTimeToNextSpawn();
-                // Spawn obstacle
-                _obstaclesSpawned.Add(Instantiate(_obstaclePrefab,
-                                             _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
-                                             Quaternion.identity));
+                SpawnObstacle();
             }
         }
     }
+    private bool IsTimeToSpawnObstacle()
+    {
+        return _timeToNextSpawn < 0;
+    }
+
+    private void SpawnObstacle()
+    {
+        _obstaclesSpawned.Add(Instantiate(_obstaclePrefab,
+                                     _spawnPoints[Random.Range(0, _spawnPoints.Length - 1)].transform.position,
+                                     Quaternion.identity));
+    }
+
 
     private void CalculateTimeToNextSpawn()
     {

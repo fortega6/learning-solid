@@ -18,13 +18,21 @@ namespace DefaultNamespace
 
         public void DoMove(float speed)
         {
-            // Check input
             var horizontal = Input.GetAxis("Horizontal");
-            _animator.SetFloat("Horizontal", math.abs(horizontal));
-            _spriteRenderer.flipX = horizontal < 0;
-            // Move according the input
+            SetAnimation(horizontal);
+            MovePlayer(speed, horizontal);
+        }
+
+        private void MovePlayer(float speed, float horizontal)
+        {
             var x = horizontal * speed * Time.deltaTime;
             _transform.Translate(-x, 0.0f, 0.0f);
+        }
+
+        private void SetAnimation(float horizontal)
+        {
+            _animator.SetFloat("Horizontal", math.abs(horizontal));
+            _spriteRenderer.flipX = horizontal < 0;
         }
     }
 }

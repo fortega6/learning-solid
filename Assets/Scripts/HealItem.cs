@@ -7,11 +7,22 @@ public class HealItem : AbstractItem
     protected override void OnCollisionEnter2D(Collision2D other)
     {
         var player = other.collider.GetComponent<IHealReceiver>();
-        if (player != null)
+
+        if (IsPlayer(player))
         {
-            player.Heal(_healQuantity);
-            Destroy(gameObject);
+            ApplyHeal(player);
         }
 
+    }
+
+    private bool IsPlayer(IHealReceiver player)
+    {
+        return player != null;
+    }
+
+    private void ApplyHeal(IHealReceiver player)
+    {
+        player.Heal(_healQuantity);
+        Destroy(gameObject);
     }
 }

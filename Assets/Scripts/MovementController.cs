@@ -26,6 +26,11 @@ public class MovementController : MonoBehaviour
 
     public void Configure(IMovable regularMovement, IMovable drunkMovement)
     {
+        SetMovements(regularMovement, drunkMovement);
+    }
+
+    private void SetMovements(IMovable regularMovement, IMovable drunkMovement)
+    {
         _regularMovable = regularMovement;
         _regularMovable.Configure(_animator, _spriteRenderer, transform);
         _drunkMovable = drunkMovement;
