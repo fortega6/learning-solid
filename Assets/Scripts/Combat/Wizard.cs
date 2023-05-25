@@ -1,22 +1,66 @@
+using UnityEngine;
+
 namespace Combat
 {
     public class Wizard : AbstractHero
     {
-        public override void ReceiveDamage(int quantity)
+        private float _baseDamage;
+
+        private float _fireDamageMultiplier;
+        private float _fireAttackProbability;
+
+        private float _iceDamageMultiplier;
+        private float _iceAttackProbability;
+
+        private float _waterDamageMultiplier;
+        private float _waterAttackProbability;
+
+        public Wizard(float baseDamage, float fireDamageMultiplier, float fireAttackProbability, float iceDamageMultiplier, float iceAttackProbability, float waterDamageMultiplier, float waterAttackProbability)
         {
-            throw new System.NotImplementedException();
+            _baseDamage = baseDamage;
+            _fireDamageMultiplier = fireDamageMultiplier;
+            _fireAttackProbability = fireAttackProbability;
+            _iceDamageMultiplier = iceDamageMultiplier;
+            _iceAttackProbability = iceAttackProbability;
+            _waterDamageMultiplier = waterDamageMultiplier;
+            _waterAttackProbability = waterAttackProbability;
         }
 
         public override void DoAttack(IDamageReceiver opponent)
         {
-            DoMagicAttack(opponent, MagicAttackType.Fire);
+            var magicAttackType = GetMagicAttackType();
+            if (magicAttackType == MagicAttackType.Fire) DoMagicAttack(opponent, magicAttackType, _fireDamageMultiplier);
+            if (magicAttackType == MagicAttackType.Ice) DoMagicAttack(opponent, magicAttackType, _iceDamageMultiplier);
+            if (magicAttackType == MagicAttackType.Water) DoMagicAttack(opponent, magicAttackType, _waterDamageMultiplier);
         }
-        
-        private void DoMagicAttack(IDamageReceiver opponent, MagicAttackType magicType)
+
+        private static MagicAttackType GetMagicAttackType()
+        {
+            return MagicAttackType.Fire;
+        }
+
+        private void DoMagicAttack(IDamageReceiver opponent, MagicAttackType magicType, float damageMultiplier)
         {
             //logic to select magic type
-            opponent.ReceiveDamage(15);
+
+            // DoSomething1();
+            // DoSomething2();
+            // DoSomething3();
+            // DoSomething4();
+            // DoSomething5();
+
+            var damage = Mathf.RoundToInt(_baseDamage * damageMultiplier);
+            opponent.ReceiveDamage(quantity: damage);
         }
+
+
+        public override void ReceiveDamage(int quantity)
+        {
+            // TODO: update health
+            throw new System.NotImplementedException();
+        }
+
+
 
         private enum MagicAttackType
         {
@@ -24,5 +68,6 @@ namespace Combat
             Ice,
             Water
         }
+
     }
 }
