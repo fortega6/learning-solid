@@ -15,7 +15,9 @@ namespace Combat
         private float _waterDamageMultiplier;
         private float _waterAttackProbability;
 
-        public Wizard(float baseDamage, float fireDamageMultiplier, float fireAttackProbability, float iceDamageMultiplier, float iceAttackProbability, float waterDamageMultiplier, float waterAttackProbability)
+        public Wizard(float baseDamage, float fireDamageMultiplier, float fireAttackProbability,
+                      float iceDamageMultiplier, float iceAttackProbability, float waterDamageMultiplier,
+                      float waterAttackProbability)
         {
             _baseDamage = baseDamage;
             _fireDamageMultiplier = fireDamageMultiplier;
@@ -29,9 +31,21 @@ namespace Combat
         public override void DoAttack(IDamageReceiver opponent)
         {
             var magicAttackType = GetMagicAttackType();
-            if (magicAttackType == MagicAttackType.Fire) DoMagicAttack(opponent, magicAttackType, _fireDamageMultiplier);
-            if (magicAttackType == MagicAttackType.Ice) DoMagicAttack(opponent, magicAttackType, _iceDamageMultiplier);
-            if (magicAttackType == MagicAttackType.Water) DoMagicAttack(opponent, magicAttackType, _waterDamageMultiplier);
+            if (magicAttackType == MagicAttackType.Fire)
+            {
+                DoMagicAttack(opponent, magicAttackType, _fireDamageMultiplier);
+                DoMagicAttack(opponent, magicAttackType, _fireDamageMultiplier);
+            }
+
+            if (magicAttackType == MagicAttackType.Ice)
+            {
+                return;
+            }
+
+            if (magicAttackType == MagicAttackType.Water)
+            {
+                DoMagicAttack(opponent, magicAttackType, _waterDamageMultiplier);
+            }
         }
 
         private static MagicAttackType GetMagicAttackType()
@@ -61,13 +75,11 @@ namespace Combat
         }
 
 
-
         private enum MagicAttackType
         {
             Fire,
             Ice,
-            Water
+            Water,
         }
-
     }
 }
